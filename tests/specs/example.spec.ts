@@ -16,7 +16,7 @@ test.describe('New Todo', () => {
     await page.locator('.new-todo').fill(TODO_ITEMS[0]);
     await page.locator('.new-todo').press('Enter');
 
-    
+
     // Make sure the list only has one todo item.
     await expect(page.locator('.view label')).toHaveText([
       TODO_ITEMS[0]
@@ -52,7 +52,7 @@ test.describe('New Todo', () => {
     // Check test using different methods.
     await expect(page.locator('.todo-count')).toHaveText('3 items left');
     await expect(page.locator('.todo-count')).toContainText('3');
-    await expect(page.locator('.todo-count')).toHaveText(/4/);
+    await expect(page.locator('.todo-count')).toHaveText(/3/);
 
     // Check all items in one call.
     await expect(page.locator('.view label')).toHaveText(TODO_ITEMS);
@@ -84,7 +84,7 @@ test.describe('Mark all as completed', () => {
     await page.locator('.toggle-all').check();
 
     // Ensure all todos have 'completed' class.
-    await expect(page.locator('.todo-list li')).toHaveClass(['completed', 'completed', 'completed1']);
+    await expect(page.locator('.todo-list li')).toHaveClass(['completed', 'completed', 'completed']);
     await checkNumberOfCompletedTodosInLocalStorage(page, 3);
   });
 
