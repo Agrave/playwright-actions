@@ -16,6 +16,7 @@ test.describe('New Todo', () => {
     await page.locator('.new-todo').fill(TODO_ITEMS[0]);
     await page.locator('.new-todo').press('Enter');
 
+    
     // Make sure the list only has one todo item.
     await expect(page.locator('.view label')).toHaveText([
       TODO_ITEMS[0]
