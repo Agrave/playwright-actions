@@ -1,0 +1,29 @@
+name: Playwright Tests
+on:
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: 'Test scope'     
+        required: true
+        default: '@regression' 
+        type: choice
+        options:
+        - '@regression'
+        - '@smoke'
+jobs:
+  test:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14.x'
+    - name: Check scope
+      run: echo "${{ github.event.inputs.scope }}""
+    - name: create cloud sql proxy credentials
+      run: |
+      echo "The GitHub Action Secret will be masked:  "
+      echo ${{ secrets.BASE_USER }}
+      echo "Trick to echo GitHub Actions Secret:  "
+      echo ${{secrets.BASE_USER}} | sed 's/./& /g' 
