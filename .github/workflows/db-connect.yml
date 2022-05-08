@@ -37,7 +37,7 @@ jobs:
       - name: Install dependencies
         run: cd tests && npm ci
       - name: Install Playwright
-        run: cd tests && npx playwright install chromium --with-deps
+        run: cd tests && npx playwright install --with-deps
       - name: Run Playwright tests
         env: BASE_USER:${{secrets.BASE_USER}}
         run: cd tests && npx playwright test
