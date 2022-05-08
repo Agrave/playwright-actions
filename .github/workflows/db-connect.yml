@@ -22,7 +22,8 @@ jobs:
         with:
           node-version: "14.x"
       - name: Check scope
-        run: echo " bla bla ${{ github.event.inputs.scope }}""
+        run: |
+          echo "bla bla ${{ github.event.inputs.scope }}""
       - name: create cloud sql proxy credentials
         run: |
           echo "The GitHub Action Secret will be masked:  " 
