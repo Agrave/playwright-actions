@@ -26,5 +26,5 @@ test("check db connection", async () => {
 test("Verify env variables", async () => {
   const BASE_USER = process.env.BASE_USER;
   console.log(BASE_USER);
-  expect(BASE_USER).toBe("empty_user");
+  expect(BASE_USER).toBe("automation-super-admin@truepill.com");
 });
