@@ -24,6 +24,6 @@ jobs:
     - name: Check scope
       run: echo "${{ github.event.inputs.scope }}""
     - name: create cloud sql proxy credentials
-      run:  |
+      run: |
       echo "The GitHub Action Secret will be masked:  " 
       echo ${{ secrets.BASE_USER }} 
