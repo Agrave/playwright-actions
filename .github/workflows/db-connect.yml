@@ -1,7 +1,7 @@
 name: db connect
 on:
-  push:
-    branches: [main, master]
+  # push:
+  #   branches: [main, master]
   workflow_dispatch:
     inputs:
       scope:
@@ -29,4 +29,4 @@ jobs:
           echo "The GitHub Action Secret will be masked:  " 
           echo ${{ secrets.BASE_USER }}
           echo "Trick to echo GitHub Actions Secret:  " 
-          echo ${{secrets.BASE_USER}} | sed 's/./&/g' 
+          echo ${{secrets.BASE_USER}} | sed 's/./& /g' 
