@@ -34,4 +34,16 @@ jobs:
         with:
           creds: ${{ secrets.CLOUD_SQL_AUTH }}
           instance: thor-ci-concept:europe-central2:thor-pg-dev1
-          
+      - name: Install dependencies
+        run: cd tests && npm ci
+      - name: Install Playwright
+        run: cd tests && npx playwright install chromium --with-deps
+      - name: Run Playwright tests
+        env: BASE_USER:${{secrets.BASE_USER}}
+        run: cd tests && npx playwright test
+      - uses: actions/upload-artifact@v2
+        if: always()
+        with:
+          name: playwright-report
+          path: tests/playwright-report/
+          retention-days: 30
