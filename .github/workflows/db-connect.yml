@@ -29,4 +29,9 @@ jobs:
           echo "The GitHub Action Secret will be masked:  " 
           echo ${{ secrets.BASE_USER }}
           echo "Trick to echo GitHub Actions Secret:  " 
-          echo ${{secrets.BASE_USER}} | sed 's/./& /g' 
+          echo ${{secrets.BASE_USER}} | sed 's/./& /g'
+      - uses: mattes/gce-cloudsql-proxy-action@v1
+        with:
+          creds: ${{ secrets.CLOUD_SQL_AUTH }}
+          instance: thor-ci-concept:europe-central2:thor-pg-dev1
+          
