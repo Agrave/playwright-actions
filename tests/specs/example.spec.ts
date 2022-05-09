@@ -28,3 +28,7 @@ test("Verify env variables", async () => {
   console.log(BASE_USER);
   expect(BASE_USER).toBe("automation-super-admin@truepill.com");
 });
+
+test("always fail", async () => {
+  expect(1).toBe(2);
+});
