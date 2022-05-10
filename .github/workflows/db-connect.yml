@@ -1,53 +1,37 @@
-name: db connect
+name: e2e UI playwright
 on:
-  # push:
-  #   branches: [main, master]
   workflow_dispatch:
-    branches: [main]
-    inputs:
-      scope:
-        description: "Test scope"
-        required: true
-        default: "@regression"
-        type: choice
-        options:
-          - "@regression"
-          - "@smoke"
+
 jobs:
-  test:
-    timeout-minutes: 60
+  run-test:
+    timeout-minutes: 30
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: "develop"
+          ref: develop
       - uses: actions/setup-node@v2
         with:
           node-version: "14.x"
-      - name: Check scope
-        run: |
-          echo "bla bla ${{ github.event.inputs.scope }}"
-      - name: create cloud sql proxy credentials
-        run: |
-          echo "The GitHub Action Secret will be masked:  " 
-          echo ${{ secrets.BASE_USER }}
-          echo "Trick to echo GitHub Actions Secret:  " 
-          echo ${{secrets.BASE_USER}} | sed 's/./& /g'
       - uses: mattes/gce-cloudsql-proxy-action@v1
         with:
-          creds: ${{ secrets.CLOUD_SQL_AUTH }}
-          instance: thor-ci-concept:europe-central2:thor-pg-dev1
+          creds: ${{ secrets.AUTOTEST_GCLOUD_CREDENTIALS }}
+          instance: ironman-dev:us-central1:ironman-my-dev
       - name: Install dependencies
         run: cd tests && npm ci
-      - name: Install Playwright
+      - name: Install Playwright binary
         run: cd tests && npx playwright install chromium --with-deps
-      - name: Run Playwright tests
+      - name: Run tests
         run: cd tests && npx playwright test
         env:
-          BASE_USER: ${{secrets.BASE_USER}}
+          BASE_USER: ${{ secrets.AUTOTEST_BASE_USER }}
+          BASE_PASSWORD: ${{ secrets.AUTOTEST_BASE_PASSWORD }}
+          BASE_URL: https://tp-admin.tp-develop.com
+          DB_SCHEMA: tp_admin
+          DATABASE_CONNECTION: postgresql://${{ secrets.AUTOTEST_DB_USER }}:${{ secrets.AUTOTEST_DB_PASSWORD}}@localhost:5432/micros_develop_2?currentSchema=${{ env.DB_SCHEMA }}
       - uses: actions/upload-artifact@v2
         if: always()
         with:
           name: playwright-report
           path: tests/playwright-report/
-          retention-days: 30
+          retention-days: 15
