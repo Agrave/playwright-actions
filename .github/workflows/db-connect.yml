@@ -16,7 +16,7 @@ jobs:
       - uses: mattes/gce-cloudsql-proxy-action@v1
         with:
           creds: ${{ secrets.AUTOTEST_GCLOUD_CREDENTIALS }}
-          instance: ironman-dev:us-central1:ironman-my-dev
+          instance: thor-ci-concept:europe-central2:thor-pg-dev1
       - name: Install dependencies
         run: cd tests && npm ci
       - name: Install Playwright binary
