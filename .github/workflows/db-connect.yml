@@ -23,18 +23,19 @@ jobs:
         run: cd tests && npm ci
       - name: Install Playwright binary
         run: cd tests && npx playwright install chromium --with-deps
-      # - name: Set variables
-      #   run: |
-
+      - name: Set local variables
+        run: |
+          echo "BASE_URL=https://tp-admin.tp-develop.com" >> $GITHUB_ENV
+          echo "DB_SCHEMA=htp_admin" >> $GITHUB_ENV
       - name: Run tests
         id: test
         run: cd tests && npx playwright test
         env:
           BASE_USER: ${{ secrets.AUTOTEST_BASE_USER }}
           BASE_PASSWORD: ${{ secrets.AUTOTEST_BASE_PASSWORD }}
-          BASE_URL: https://tp-admin.tp-develop.com
-          DB_SCHEMA: tp_admin
-          DATABASE_CONNECTION: postgresql://${{ secrets.AUTOTEST_DB_USER }}:${{ secrets.AUTOTEST_DB_PASSWORD}}@localhost:5432/micros_develop_2?currentSchema=${ env.DB_SCHEMA }
+          BASE_URL: ${{ env.BASE_URL }}
+          DB_SCHEMA: ${{ env.DB_SCHEMA }}
+          DATABASE_CONNECTION: postgresql://${{ secrets.AUTOTEST_DB_USER }}:${{ secrets.AUTOTEST_DB_PASSWORD}}@localhost:5432/micros_develop_2?currentSchema=${{ env.DB_SCHEMA }}
       - uses: actions/upload-artifact@v2
         if: always()
         with:
