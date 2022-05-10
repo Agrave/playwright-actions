@@ -29,6 +29,16 @@ test("Verify env variables", async () => {
   expect(BASE_USER).toBe("automation-super-admin@truepill.com");
 });
 
-test("just another test", () => {
+test("print env variables", () => {
+  const { BASE_USER, BASE_PASSWORD, BASE_URL, DB_SCHEMA, DATABASE_CONNECTION } =
+    process.env;
+
+  console.dir({
+    BASE_USER,
+    BASE_PASSWORD,
+    BASE_URL,
+    DB_SCHEMA,
+    DATABASE_CONNECTION,
+  });
   expect(1).toBe(1);
 });
