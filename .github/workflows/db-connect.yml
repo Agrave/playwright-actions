@@ -23,6 +23,9 @@ jobs:
         run: cd tests && npm ci
       - name: Install Playwright binary
         run: cd tests && npx playwright install chromium --with-deps
+      # - name: Set variables
+      #   run: |
+
       - name: Run tests
         id: test
         run: cd tests && npx playwright test
@@ -31,7 +34,7 @@ jobs:
           BASE_PASSWORD: ${{ secrets.AUTOTEST_BASE_PASSWORD }}
           BASE_URL: https://tp-admin.tp-develop.com
           DB_SCHEMA: tp_admin
-          DATABASE_CONNECTION: postgresql://${{ secrets.AUTOTEST_DB_USER }}:${{ secrets.AUTOTEST_DB_PASSWORD}}@localhost:5432/micros_develop_2?currentSchema=${{ env.DB_SCHEMA }}111
+          DATABASE_CONNECTION: postgresql://${{ secrets.AUTOTEST_DB_USER }}:${{ secrets.AUTOTEST_DB_PASSWORD}}@localhost:5432/micros_develop_2?currentSchema=${ env.DB_SCHEMA }
       - uses: actions/upload-artifact@v2
         if: always()
         with:
