@@ -1,6 +1,8 @@
 name: e2e UI playwright
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
 
 jobs:
   run-test:
@@ -22,13 +24,14 @@ jobs:
       - name: Install Playwright binary
         run: cd tests && npx playwright install chromium --with-deps
       - name: Run tests
+        id: test
         run: cd tests && npx playwright test
         env:
           BASE_USER: ${{ secrets.AUTOTEST_BASE_USER }}
           BASE_PASSWORD: ${{ secrets.AUTOTEST_BASE_PASSWORD }}
           BASE_URL: https://tp-admin.tp-develop.com
           DB_SCHEMA: tp_admin
-          DATABASE_CONNECTION: postgresql://${{ secrets.AUTOTEST_DB_USER }}:${{ secrets.AUTOTEST_DB_PASSWORD}}@localhost:5432/micros_develop_2?currentSchema=${{ DB_SCHEMA }}
+          DATABASE_CONNECTION: postgresql://${{ secrets.AUTOTEST_DB_USER }}:${{ secrets.AUTOTEST_DB_PASSWORD}}@localhost:5432/micros_develop_2?currentSchema=${{ steps.test.id.DB_SCHEMA }}
       - uses: actions/upload-artifact@v2
         if: always()
         with:
