@@ -8,11 +8,10 @@ jobs:
   run-test:
     timeout-minutes: 30
     runs-on: ubuntu-latest
-        steps:
+    steps:
       - name: Get timestamp
         id: date
         run: echo "::set-output name=timestamp::$(date +'%Y-%m-%d_%H-%M-%S')"
-    steps:
       - uses: actions/checkout@v3
         with:
           ref: develop
