@@ -8,6 +8,10 @@ jobs:
   run-test:
     timeout-minutes: 30
     runs-on: ubuntu-latest
+        steps:
+      - name: Get timestamp
+        id: date
+        run: echo "::set-output name=timestamp::$(date +'%Y-%m-%d_%H-%M-%S')"
     steps:
       - uses: actions/checkout@v3
         with:
@@ -26,7 +30,7 @@ jobs:
       - name: Set local variables
         run: |
           echo "BASE_URL=https://tp-admin.tp-develop.com" >> $GITHUB_ENV
-          echo "DB_SCHEMA=htp_admin" >> $GITHUB_ENV
+          echo "DB_SCHEMA=tp_admin" >> $GITHUB_ENV
       - name: Run tests
         id: test
         run: cd tests && npx playwright test
@@ -39,6 +43,6 @@ jobs:
       - uses: actions/upload-artifact@v2
         if: always()
         with:
-          name: playwright-report
+          name: playwright-report-${{ steps.date.outputs.timestamp }}
           path: tests/playwright-report/
           retention-days: 15
